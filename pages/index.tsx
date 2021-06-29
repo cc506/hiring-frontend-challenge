@@ -4,15 +4,17 @@ import { InferGetStaticPropsType } from 'next'
 import styles from '../styles/Home.module.css'
 import { Palette } from '../types/palette'
 import Chip from '../components/chip';
+import { getData } from './api/hello'
 
-const API_URL: string = 'http://www.colourlovers.com/api/palettes/new?format=json';
+
 var date: any, palettes: Palette[];
 
-function Home({ palettes, date }: InferGetStaticPropsType<typeof getStaticProps>) {
+function Home({ palettes, date }: InferGetStaticPropsType<typeof getServerSideProps>) {
 
   // setInterval(() => {
-  //   refresh();
-  // }, 5)
+  //   getData()
+  //   console.log(1);
+  // }, 6000)
 
   return (
     <div className={styles.container}>
@@ -53,12 +55,10 @@ function Home({ palettes, date }: InferGetStaticPropsType<typeof getStaticProps>
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   
-  const res = await fetch(API_URL, { method: 'GET', 
-                                headers:{'Content-Type': 'application/json', 'User-Agent': '*'}})
+  palettes = await getData();                              
   date = new Date().toLocaleTimeString([], {hour: "numeric", minute:'2-digit'});
-  palettes = await res.json();
 
   return {
     props: {
