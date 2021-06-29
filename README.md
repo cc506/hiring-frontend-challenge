@@ -1,34 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+ColourLovers Live is an exploration of british spelling and intended to keep software engineers familiar with the latest trends in colour palettes. 🎨
 
-## Getting Started
+To be clear, this is not a complete or comprehensive spec, let me know if anything's unclear and we'll get it hammered out.
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
+Really this just a quick toy project using roughly TenantBase's development stack. No need to be OCD. If some particular part of the mockup is really tricky to implement, just note it in the code and have a mental gameplan of how you'd approach solving it.
+
+The actual mechanics shouldn't be too complicated—hit ColourLovers.com's API and display it nicely with some responsive behavior. Here's a mockup of the version for large screens:
+
+![Desktop Mockup](mockups/ColourLovers%20Live%20Desktop.png)
+
+### Behavior
+
+When the index.html file is loaded, it should immediately load up the newest colour palettes from the CL API, displaying them as shown in the mockup. The mapping from the API to the UI should be pretty self evident.
+
+The page should refresh the data every minute, so we see the latest palettes.
+
+In terms of mobile/responsive behavior, I've also included a mockup of a mobile version to be implemented using standard bootstrap responsive behavior:
+
+![Mobile Mockup](mockups/ColourLovers%20Live%20Mobile.png)
+
+BTW the font is Lato. I've included PSDs in the mockups folder if need 'em to dig further into graphic design details.
+
+### Technical Details
+
+API-wise, you'll want to do a GET against the CL palettes endpoint:
+
+    http://www.colourlovers.com/api/palettes/new?format=json
+
+It will return a list of palettes. Here's an example palette:
+
+```javascript
+ {
+    "id": 3896580,
+    "title": "Tequila Sunrise",
+    "userName": "peachcreativeco",
+    "numViews": 11,
+    "numVotes": 3,
+    "numComments": 0,
+    "numHearts": 0,
+    "rank": 0,
+    "dateCreated": "2015-10-09 10:15:22",
+    "colors": [
+      "9F1F63",
+      "D61B5B",
+      "F6DC32",
+      "F69C1F",
+      "67B7A8"
+    ],
+    "description": "A refreshing tropical palette reminiscent of umbrella cocktails...",
+    "url": "http://www.colourlovers.com/palette/3896580/Tequila_Sunrise",
+    "imageUrl": "http://www.colourlovers.com/paletteImg/9F1F63/D61B5B/F6DC32/F69C1F/67B7A8/Tequila_Sunrise.png",
+    "badgeUrl": "http://www.colourlovers.com/images/badges/p/3896/3896580_Tequila_Sunrise.png",
+    "apiUrl": "http://www.colourlovers.com/api/palette/3896580"
+  }
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Further info can be found in the "Palettes" section of the [CL API documentation](http://www.colourlovers.com/api).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Use whatever library of your choice to hit the endpoint. jQuery even.
